@@ -19,6 +19,8 @@ public class Tile
     
     public static BufferedImage TILE_upWall = Game.spritesheet.getSprite(320, 256, 64, 64);
     public static BufferedImage TILE_downWall = Game.spritesheet.getSprite(384, 256, 64, 64);
+    
+    
 
     private BufferedImage sprite;
     private int x, y;
