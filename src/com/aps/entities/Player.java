@@ -30,8 +30,7 @@ public class Player extends Entity {
 	public double life = 30, maxlife = 30;
 
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
-		super(x, y, width, height, sprite, height, height, height, height,
-				height, height, height, height, height);
+		super(x, y, width, height, sprite);
 
 		setIndex(7); /* O maximo de movimentos em uma animacao */
 		setFrames(5);/* Intervalo entre as animacoes */

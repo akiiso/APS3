@@ -46,23 +46,12 @@ public class Entity {
 
 	private BufferedImage sprite;
 
-	public Entity(int x, int y, int width, int height, BufferedImage sprite,
-			int speed, int mask_X, int mask_Y, int mask_W, int mask_H,
-			int frames, int maxFrames, int index, int maxIndex) {
+	public Entity(int x, int y, int width, int height, BufferedImage sprite) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.sprite = sprite;
-		this.speed = speed;
-		this.mask_X = mask_X;
-		this.mask_Y = mask_Y;
-		this.mask_W = mask_W;
-		this.mask_H = mask_H;
-		this.frames = frames;
-		this.maxFrames = maxFrames;
-		this.index = index;
-		this.maxIndex = maxIndex;
 
 	}
 

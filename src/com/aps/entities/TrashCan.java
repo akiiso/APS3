@@ -14,7 +14,7 @@ public class TrashCan extends Entity {
 	private BufferedImage[] TrashCan;
 
 	public TrashCan(int x, int y, int width, int height, BufferedImage sprite) {
-		super(x, y, width, height, sprite, height, height, height, height, height, height, height, height, height);
+		super(x, y, width, height, sprite);
 		setIndex(1);
 		setMasks(13, 10, 33, 55);
 		

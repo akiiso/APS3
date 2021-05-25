@@ -15,8 +15,7 @@ public class Enemy extends Entity {
 	private BufferedImage[] EnemyMoveLeft;
 
 	public Enemy(int x, int y, int width, int height, BufferedImage sprite) {
-		super(x, y, width, height, null, height, height, height, height, height,
-				height, height, height, height);
+		super(x, y, width, height, null);
 
 		setFrames(5);
 		setIndex(5);

@@ -15,7 +15,7 @@ public class Coletaveis extends Entity {
 
 	public Coletaveis(int x, int y, int width, int height,
 			BufferedImage sprite) {
-		super(x, y, width, height, sprite, height, height, height, height, height, height, height, height, height);
+		super(x, y, width, height, sprite);
 		
 		setIndex(2);
 
