@@ -3,7 +3,9 @@ package com.aps.main;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
@@ -17,7 +19,6 @@ import javax.swing.JFrame;
 import com.aps.entities.Enemy;
 import com.aps.entities.Entity;
 import com.aps.entities.Player;
-
 import com.aps.graficos.Spritesheet;
 import com.aps.graficos.UI;
 import com.aps.world.World;
@@ -30,9 +31,14 @@ public class Game extends Canvas implements Runnable, KeyListener
 		private boolean isRunning = true;
 		public static int WIDTH = 200;
 		public static int HEIGHT = 320;
-		private final int SCALE = 2;
+		public static final int SCALE = 2;
+		private int frames = 0;
 
+		public Menu menu;
+		public static String gameState = "MENU";
 		private int CUR_LEVEL = 1, MAX_LEVEL = 3;
+		public static int Score = 0;
+		private boolean restartGame = false;
 		private BufferedImage image;
 
 		public static List<Entity> entities;
@@ -59,10 +65,13 @@ public class Game extends Canvas implements Runnable, KeyListener
 				entities = new ArrayList<Entity>();
 				enemies = new ArrayList<Enemy>();
 				coletaveis = new ArrayList<Entity>();
+
 				spritesheet = new Spritesheet("/spritesheet.png");
 				player = new Player(0, 0, 64, 64, spritesheet.getSprite(0, 0, 64, 64));
 				entities.add(player);
 				world = new World("/level1.png");
+
+				menu = new Menu();
 
 			}
 
@@ -105,19 +114,50 @@ public class Game extends Canvas implements Runnable, KeyListener
 
 		public void tick()
 			{
-				for (int i = 0; i < entities.size(); i++) {
-					Entity e = entities.get(i);
-					e.tick();
+				switch (gameState)
+					{
+					case "NORMAL":
+						{
+							this.restartGame = false;
+							for (int i = 0; i < entities.size(); i++) {
+								Entity e = entities.get(i);
+								e.tick();
+							}
+							if( coletaveis.size() == 0 ) {/* Avancar de level */
+								frames++;
+								if( frames == 30 ) {
+									frames = 0;
+									CUR_LEVEL++;
+									if( CUR_LEVEL > MAX_LEVEL ) {
+										CUR_LEVEL = 1;
+									}
+									String newWorld = "level" + CUR_LEVEL + ".png";
+									World.restartGame(CUR_LEVEL, newWorld);
+								}
+							}
+						}
+					case "MENU":
+						{
+							menu.tick();
+						}
+					case "GAME_OVER":
+						{
+							if( restartGame ) {
 
-				}
-				if( coletaveis.size() == 0 ) {/* Avancar de level */
-					CUR_LEVEL++;
-					if( CUR_LEVEL > MAX_LEVEL ) {
-						CUR_LEVEL = 1;
+								entities.clear();
+								coletaveis.clear();
+								this.restartGame = false;
+								gameState = "NORMAL";
+								Score = 0;
+								CUR_LEVEL = 1;
+								String newWorld = "level" + CUR_LEVEL + ".png";
+
+								World.restartGame(CUR_LEVEL, newWorld);
+							}
+						}
+
 					}
-					String newWorld = "level"+CUR_LEVEL +".png";
-					World.restartGame(newWorld);
-				}
+
 			}
 
 		public void render()
@@ -145,11 +185,26 @@ public class Game extends Canvas implements Runnable, KeyListener
 					e.render(g);
 				}
 
-				ui.render(g,CUR_LEVEL);
+				ui.render(g, CUR_LEVEL);
 				/***/
 				g.dispose();
 				g = bs.getDrawGraphics();
 				g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+				if( gameState == "GAME_OVER" ) {
+					Graphics2D g2 = (Graphics2D) g;
+					g2.setColor(new Color(0, 0, 0, 100));
+					g2.fillRect(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
+					g.setColor(Color.RED);
+					g.setFont(new Font("arial", Font.BOLD, 30));
+					g.drawString("GAME OVER", (WIDTH * SCALE) / 2 - 90, (HEIGHT * SCALE) / 3);
+					g.setColor(Color.WHITE);
+					g.setFont(new Font("arial", Font.ITALIC, 20));
+					g.drawString(">>Pressione ESPAÇO para reiniciar<<", (WIDTH * SCALE) / 2 - 175,
+							(HEIGHT * SCALE) / 2 + 100);
+				}
+				else if( gameState == "MENU" ) {
+					menu.render(g);
+				}
 				bs.show();
 			}
 
@@ -187,7 +242,6 @@ public class Game extends Canvas implements Runnable, KeyListener
 		@Override
 		public void keyTyped(KeyEvent e)
 			{
-				// TODO Auto-generated method stub
 
 			}
 
@@ -205,10 +259,33 @@ public class Game extends Canvas implements Runnable, KeyListener
 				if( e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W ) {
 					// player vai pular
 					player.up = true;
+					/* Controlar menu */
+					if( gameState == "MENU" ) {
+						menu.up = true;
+					}
 				}
 				else if( e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S ) {
 					// player vai agachar
 					player.down = true;
+					/* Controlar menu */
+					if( gameState == "MENU" ) {
+						menu.down = true;
+					}
+				}
+				if( e.getKeyCode() == KeyEvent.VK_SPACE ) {
+					if( gameState == "GAME_OVER" ) {
+						this.restartGame = true;
+						System.out.println("Working ");
+					}
+					else if( gameState == "MENU" ) {
+						menu.enter = true;
+					}
+				}
+				if( e.getKeyCode() == KeyEvent.VK_ESCAPE ) {
+					if( gameState == "NORMAL" ) {
+						gameState = "MENU";
+						menu.pause = true;
+					}
 				}
 			}
 

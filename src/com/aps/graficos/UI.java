@@ -28,12 +28,14 @@ public class UI
 				g.fillRect(X, Y * 2, W, H);
 				g.setColor(Color.white);
 				g.setFont(new Font("arial", Font.BOLD, 11));
-				g.drawString("Pontos: " + Game.player.score, X + 2, Y * 3 - 1);
+				g.drawString("Pontos: " + Game.Score, X + 2, Y * 3 - 1);
 
-				/* Tempo */
+				/* level */
+				g.setColor(Color.black);
+				g.fillRect(X, Y*4-9, 50, H);
 				g.setColor(Color.white);
 				g.setFont(new Font("arial", Font.BOLD, 11));
-				g.drawString("Level: "+level, X + 2, Y * 6 - 1);
+				g.drawString("Level: "+level, X+2, Y*4);
 
 			}
 

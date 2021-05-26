@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.aps.main.Game;
+import com.aps.main.Sound;
 import com.aps.world.Camera;
 
 public class Coletaveis extends Entity
@@ -13,7 +14,6 @@ public class Coletaveis extends Entity
 		boolean Operating = true;
 
 		private BufferedImage[] Coletaveis;
-
 
 		public Coletaveis(int x, int y, int width, int height, BufferedImage sprite)
 			{
@@ -52,7 +52,8 @@ public class Coletaveis extends Entity
 			{
 				g.drawImage(Coletaveis[this.index], this.getX() + -Camera.x, this.getY() - Camera.y, null);
 				if( isColliding(this, Game.player) ) {
-					Game.player.score += 10;
+					Sound.collect.play();
+					Game.Score += 10;
 					Operating = false;
 					Game.coletaveis.remove(this);
 				}

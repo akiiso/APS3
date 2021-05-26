@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.aps.main.Game;
+import com.aps.main.Sound;
 import com.aps.world.Camera;
 import com.aps.world.World;
 
@@ -77,6 +78,8 @@ public class Enemy extends Entity
 				else {
 					if( Game.rand.nextInt(100) < 10 ) {
 						Game.player.life -= 2;
+						Game.player.isDamaged = true;
+						Sound.hit.play();
 
 					}
 				}

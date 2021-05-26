@@ -12,7 +12,6 @@ public class Player extends Entity
 
 		public boolean right, up, left, down;
 		public double speed = 3.2;
-		public int score = 0;
 		private int std_frames = 0, max_std_frames = 20, std_Index = 0;
 		private boolean moved = false;
 
@@ -20,8 +19,8 @@ public class Player extends Entity
 		private BufferedImage[] PlayerMoveLeft;
 		private BufferedImage[] PlayerStdRight;
 		private BufferedImage[] PlayerStdLeft;
-
 		private BufferedImage[] PlayerDamage;
+
 		public boolean isDamaged = false;
 		public int damageFrames = 0;
 
@@ -68,10 +67,12 @@ public class Player extends Entity
 
 			}
 
+		
+		
 		@Override
 		public void tick()
 			{
-
+				
 				moved = false;
 				if( right && World.isFree((int) (x + speed), this.getY()) ) {
 
@@ -123,9 +124,10 @@ public class Player extends Entity
 						isDamaged = false;
 					}
 				}
-				
+
 				if( life <= 0 ) {
-					/*GAME OVER*/
+					/* GAME OVER */
+					Game.gameState = "GAME_OVER";
 				}
 
 				/* Camera seguindo no eixo X */

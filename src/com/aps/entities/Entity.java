@@ -128,6 +128,8 @@ public abstract class Entity
 		public void tick()
 			{}
 
+
+
 		public static boolean isColliding(Entity en1, Entity en2)
 			{
 				Rectangle en1Mask = new Rectangle(en1.getX() + en1.getMask_X(), en1.getY() + en1.getMask_Y(),

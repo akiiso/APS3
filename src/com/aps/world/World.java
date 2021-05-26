@@ -270,14 +270,16 @@ public class World
 						|| tiles[x4 + (y4 * World.WIDTH)] instanceof WallTile);
 			}
 
-		public static void restartGame(String level)
+		public static void restartGame(int curlevel,String level)
 			{
+				if( curlevel==1 ) {
+					Game.player = new Player(0, 0, 64, 64, Game.spritesheet.getSprite(0, 0, 64, 64));
+				}
 				Game.entities = new ArrayList<Entity>();
 				Game.enemies = new ArrayList<Enemy>();
 				Game.spritesheet = new Spritesheet("/spritesheet.png");
-				Game.player = new Player(0, 0, 64, 64, Game.spritesheet.getSprite(0, 0, 64, 64));
 				Game.entities.add(Game.player);
-				Game.world = new World("/"+level);
+				Game.world = new World("/" + level);
 				return;
 			}
 

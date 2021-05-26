@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.aps.main.Game;
+import com.aps.main.Sound;
 import com.aps.world.Camera;
 
 public class TrashCan extends Entity
@@ -31,9 +32,10 @@ public class TrashCan extends Entity
 			{
 				if (isColliding(this, Game.player) && Operating) {
 					this.index = 1;
-					Game.player.score += 50;
+					Game.Score += 50;
 					Operating = false;
 					Game.coletaveis.remove(this);
+					Sound.collect.play();
 				}
 				g.drawImage(TrashCan[this.index], this.getX() + -Camera.x, this.getY() - Camera.y, null);
 
