@@ -69,7 +69,9 @@ public class Menu
 			{
 				Graphics2D g2 = (Graphics2D) g;
 				/* Background */
-				g2.setColor(new Color(0, 0, 0, 200));
+				g2.setColor(Color.black);
+				if(pause)
+					g2.setColor(new Color(0, 0, 0, 200));
 				g.fillRect(0, 0, Game.WIDTH * Game.SCALE, Game.HEIGHT * Game.SCALE);
 				/*
 				 * 
