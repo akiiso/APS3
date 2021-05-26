@@ -33,6 +33,7 @@ public class TrashCan extends Entity
 					this.index = 1;
 					Game.player.score += 50;
 					Operating = false;
+					Game.coletaveis.remove(this);
 				}
 				g.drawImage(TrashCan[this.index], this.getX() + -Camera.x, this.getY() - Camera.y, null);
 

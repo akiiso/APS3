@@ -3,6 +3,7 @@ package com.aps.world;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -10,7 +11,9 @@ import com.aps.entities.Coletaveis;
 import com.aps.entities.Enemy;
 import com.aps.entities.Entity;
 import com.aps.entities.TrashCan;
+import com.aps.graficos.Spritesheet;
 import com.aps.entities.Obstacle;
+import com.aps.entities.Player;
 import com.aps.main.Game;
 
 public class World
@@ -19,6 +22,7 @@ public class World
 		public static Tile[] tiles;
 		public static int WIDTH, HEIGTH;
 		public static final int TILE_SIZE = 64;
+
 
 		public World(String path)
 			{
@@ -34,25 +38,30 @@ public class World
 					for (int xx = 0; xx < map.getWidth(); xx++) {
 						for (int yy = 0; yy < map.getHeight(); yy++) {
 							int pixelAtual = pixels[xx + (yy * map.getWidth())];
-							/*FloorTile !Nao possui colisao!*/
+							/* FloorTile !Nao possui colisao! */
 							FloorTile upFloor = new FloorTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_upFLOOR);
 							FloorTile upFloorSP = new FloorTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_upFLOORsp);
 							FloorTile midFloor = new FloorTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_midFLOOR);
 							FloorTile downFloor = new FloorTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_downFLOOR);
-							FloorTile downFloorSP = new FloorTile(xx * TILE_SIZE, yy * TILE_SIZE,Tile.TILE_downFLOORsp);
+							FloorTile downFloorSP = new FloorTile(xx * TILE_SIZE, yy * TILE_SIZE,
+									Tile.TILE_downFLOORsp);
 							FloorTile upWall = new FloorTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_upWall);
-							/*WallTile !Colisao 64x64!*/
+							/* WallTile !Colisao 64x64! */
 							WallTile W_upFloor = new WallTile(xx * (TILE_SIZE), yy * TILE_SIZE, Tile.TILE_upFLOOR);
 							WallTile W_midFloor = new WallTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_midFLOOR);
 							WallTile W_downFloor = new WallTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_downFLOOR);
 							WallTile downWall = new WallTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_downWall);
 							WallTile SkyWall = new WallTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_Dummy);
-							/*Entities*/
+							/* Entities */
 							Enemy en = new Enemy(xx * TILE_SIZE, (yy * TILE_SIZE), TILE_SIZE, TILE_SIZE, Entity.Dog_EN);
-							TrashCan tc_up = new TrashCan(xx * TILE_SIZE, yy * (TILE_SIZE + -3), TILE_SIZE, TILE_SIZE,Entity.TRASH_full_EN);
-							TrashCan tc_down = new TrashCan(xx * TILE_SIZE, yy * (TILE_SIZE), TILE_SIZE, TILE_SIZE,Entity.TRASH_full_EN);
-							Coletaveis clt = new Coletaveis(xx * TILE_SIZE, yy * (TILE_SIZE), TILE_SIZE, TILE_SIZE,Entity.SODACAN_EN);
-							Obstacle obs = new Obstacle(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE,Entity.Obstacle_EN);
+							TrashCan tc_up = new TrashCan(xx * TILE_SIZE, yy * (TILE_SIZE + -3), TILE_SIZE, TILE_SIZE,
+									Entity.TRASH_full_EN);
+							TrashCan tc_down = new TrashCan(xx * TILE_SIZE, yy * (TILE_SIZE), TILE_SIZE, TILE_SIZE,
+									Entity.TRASH_full_EN);
+							Coletaveis clt = new Coletaveis(xx * TILE_SIZE, yy * (TILE_SIZE), TILE_SIZE, TILE_SIZE,
+									Entity.SODACAN_EN);
+							Obstacle obs = new Obstacle(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE,
+									Entity.Obstacle_EN);
 
 							switch (pixelAtual)
 								{
@@ -64,10 +73,11 @@ public class World
 								/* Chao Superior */
 								case 0xFFFFD800:
 									{
-										if (xx % 5 == 0) {
+										if( xx % 5 == 0 ) {
 											tiles[xx + (yy * WIDTH)] = upFloorSP;
 											break;
-										} else {
+										}
+										else {
 											tiles[xx + (yy * WIDTH)] = upFloor;
 											break;
 										}
@@ -76,10 +86,11 @@ public class World
 								/* Chao Inferior */
 								case 0xFFFF6A00:
 									{
-										if (xx % 5 == 0) {
+										if( xx % 5 == 0 ) {
 											tiles[xx + (yy * WIDTH)] = downFloorSP;
 											break;
-										} else {
+										}
+										else {
 											tiles[xx + (yy * WIDTH)] = downFloor;
 											break;
 										}
@@ -110,17 +121,19 @@ public class World
 										Game.player.setX(xx * TILE_SIZE);
 										Game.player.setY(yy * TILE_SIZE);
 
-										if (pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFFD800
-												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFFD800)
+										if( pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFFD800
+												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFFD800 )
 										{
 											tiles[xx + (yy * WIDTH)] = upFloor;
 											break;
-										} else if (pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFF6A00
-												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFF6A00)
+										}
+										else if( pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFF6A00
+												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFF6A00 )
 										{
 											tiles[xx + (yy * WIDTH)] = downFloor;
 											break;
-										} else {
+										}
+										else {
 											tiles[xx + (yy * WIDTH)] = midFloor;
 											break;
 										}
@@ -133,17 +146,19 @@ public class World
 										Game.entities.add(en);
 										Game.enemies.add(en);
 
-										if (pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFFD800
-												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFFD800)
+										if( pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFFD800
+												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFFD800 )
 										{
 											tiles[xx + (yy * WIDTH)] = upFloor;
 											break;
-										} else if (pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFF6A00
-												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFF6A00)
+										}
+										else if( pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFF6A00
+												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFF6A00 )
 										{
 											tiles[xx + (yy * WIDTH)] = downFloor;
 											break;
-										} else {
+										}
+										else {
 											tiles[xx + (yy * WIDTH)] = midFloor;
 											break;
 										}
@@ -153,19 +168,21 @@ public class World
 								case 0xFF000000:
 									{
 
-										if (pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFFD800
-												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFFD800)
+										if( pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFFD800
+												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFFD800 )
 										{
 											Game.entities.add(obs);
 											tiles[xx + (yy * WIDTH)] = W_upFloor;
 											break;
-										} else if (pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFF6A00
-												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFF6A00)
+										}
+										else if( pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFF6A00
+												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFF6A00 )
 										{
 											Game.entities.add(obs);
 											tiles[xx + (yy * WIDTH)] = W_downFloor;
 											break;
-										} else {
+										}
+										else {
 											Game.entities.add(obs);
 											tiles[xx + (yy * WIDTH)] = W_midFloor;
 											break;
@@ -175,20 +192,25 @@ public class World
 								/* Leixeira */
 								case 0xFF00FF90:
 									{
-										if (pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFFD800
-												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFFD800)
+										if( pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFFD800
+												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFFD800 )
 										{
 											Game.entities.add(tc_up);
+											Game.coletaveis.add(tc_up);
 											tiles[xx + (yy * WIDTH)] = upFloor;
 											break;
-										} else if (pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFF6A00
-												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFF6A00)
+										}
+										else if( pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFF6A00
+												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFF6A00 )
 										{
 											Game.entities.add(tc_down);
+											Game.coletaveis.add(tc_down);
 											tiles[xx + (yy * WIDTH)] = downFloor;
 											break;
-										} else {
+										}
+										else {
 											Game.entities.add(tc_down);
+											Game.coletaveis.add(tc_down);
 											tiles[xx + (yy * WIDTH)] = midFloor;
 											break;
 										}
@@ -196,20 +218,22 @@ public class World
 								/* Coletaveis */
 								case 0xFFFF00FF:
 									{
-										Game.entities.add(clt);
-										if (pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFFD800
-												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFFD800)
+										Game.coletaveis.add(clt);
+										if( pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFFD800
+												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFFD800 )
 										{
 											tiles[xx + (yy * WIDTH)] = upFloor;
 											break;
 
-										} else if (pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFF6A00
-												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFF6A00)
+										}
+										else if( pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFF6A00
+												|| pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFF6A00 )
 										{
 
 											tiles[xx + (yy * WIDTH)] = downFloor;
 											break;
-										} else {
+										}
+										else {
 
 											tiles[xx + (yy * WIDTH)] = midFloor;
 											break;
@@ -246,6 +270,17 @@ public class World
 						|| tiles[x4 + (y4 * World.WIDTH)] instanceof WallTile);
 			}
 
+		public static void restartGame(String level)
+			{
+				Game.entities = new ArrayList<Entity>();
+				Game.enemies = new ArrayList<Enemy>();
+				Game.spritesheet = new Spritesheet("/spritesheet.png");
+				Game.player = new Player(0, 0, 64, 64, Game.spritesheet.getSprite(0, 0, 64, 64));
+				Game.entities.add(Game.player);
+				Game.world = new World("/"+level);
+				return;
+			}
+
 		public void render(Graphics g)
 			{
 				int xstart = (Camera.x >> 5);
@@ -255,7 +290,7 @@ public class World
 
 				for (int xx = 0; xx <= xfinal; xx++) {
 					for (int yy = 0; yy <= yfinal; yy++) {
-						if (xx < 0 || yy < 0 || xx >= WIDTH || yy >= HEIGTH) {
+						if( xx < 0 || yy < 0 || xx >= WIDTH || yy >= HEIGTH ) {
 							continue;
 						}
 						Tile tile = tiles[(xx) + (yy * WIDTH)];

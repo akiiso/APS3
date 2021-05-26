@@ -10,7 +10,7 @@ public class UI
 
 		private int X = 10, Y = 10, W = 100, H = 10;
 
-		public void render(Graphics g)
+		public void render(Graphics g,int level)
 			{
 				/* UI Vida */
 				/* Barra de vida */
@@ -33,7 +33,7 @@ public class UI
 				/* Tempo */
 				g.setColor(Color.white);
 				g.setFont(new Font("arial", Font.BOLD, 11));
-				g.drawString("Tempo: " + 0, X + 2, Y * 6 - 1);
+				g.drawString("Level: "+level, X + 2, Y * 6 - 1);
 
 			}
 

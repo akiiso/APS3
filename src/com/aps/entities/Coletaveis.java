@@ -14,6 +14,7 @@ public class Coletaveis extends Entity
 
 		private BufferedImage[] Coletaveis;
 
+
 		public Coletaveis(int x, int y, int width, int height, BufferedImage sprite)
 			{
 				super(x, y, width, height, sprite);
@@ -50,13 +51,13 @@ public class Coletaveis extends Entity
 		public void render(Graphics g)
 			{
 				g.drawImage(Coletaveis[this.index], this.getX() + -Camera.x, this.getY() - Camera.y, null);
-				if (isColliding(this, Game.player)) {
+				if( isColliding(this, Game.player) ) {
 					Game.player.score += 10;
 					Operating = false;
-					Game.entities.remove(this);
+					Game.coletaveis.remove(this);
 				}
 
-				if (showMask) {
+				if( showMask ) {
 					g.setColor(Color.pink);
 					g.fillRect(this.getX() + mask_X - Camera.x, this.getY() + mask_Y - Camera.y, mask_W, mask_H);
 				}

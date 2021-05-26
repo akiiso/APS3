@@ -3,9 +3,6 @@ package com.aps.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-
-import com.aps.graficos.Spritesheet;
 import com.aps.main.Game;
 import com.aps.world.Camera;
 import com.aps.world.World;
@@ -14,7 +11,7 @@ public class Player extends Entity
 	{
 
 		public boolean right, up, left, down;
-		public double speed = 20.2;
+		public double speed = 3.2;
 		public int score = 0;
 		private int std_frames = 0, max_std_frames = 20, std_Index = 0;
 		private boolean moved = false;
@@ -29,6 +26,7 @@ public class Player extends Entity
 		public int damageFrames = 0;
 
 		public double life = 30, maxlife = 30;
+
 
 		public Player(int x, int y, int width, int height, BufferedImage sprite)
 			{
@@ -75,61 +73,59 @@ public class Player extends Entity
 			{
 
 				moved = false;
-				if (right && World.isFree((int) (x + speed), this.getY())) {
+				if( right && World.isFree((int) (x + speed), this.getY()) ) {
 
 					moved = true;
 					dir = right_dir;
 					x += speed;
 
-				} else if (left && World.isFree((int) (x - speed), this.getY())) {
+				}
+				else if( left && World.isFree((int) (x - speed), this.getY()) ) {
 					moved = true;
 					dir = left_dir;
 					x -= speed;
 				}
-				if (up && World.isFree(this.getX(), (int) (y - speed))) {
+				if( up && World.isFree(this.getX(), (int) (y - speed)) ) {
 					moved = true;
 					y -= speed;
-				} else if (down && World.isFree(this.getX(), (int) (y + speed))) {
+				}
+				else if( down && World.isFree(this.getX(), (int) (y + speed)) ) {
 					moved = true;
 					y += speed;
 				}
 
-				if (moved) {
+				if( moved ) {
 					frames++;
-					if (frames == maxFrames) {
+					if( frames == maxFrames ) {
 						frames = 0;
 						index++;
-						if (index == maxIndex) {
+						if( index == maxIndex ) {
 							index = 0;
 						}
 					}
-				} else {
+				}
+				else {
 					std_frames++;
-					if (std_frames == max_std_frames) {
+					if( std_frames == max_std_frames ) {
 						std_frames = 0;
 						std_Index++;
-						if (std_Index == 2) {
+						if( std_Index == 2 ) {
 							std_Index = 0;
 						}
 					}
 				}
 
 				checkCollisionItem();
-				if (isDamaged) {
+				if( isDamaged ) {
 					this.damageFrames++;
-					if (this.damageFrames == 10) {
+					if( this.damageFrames == 10 ) {
 						this.damageFrames = 0;
 						isDamaged = false;
 					}
 				}
-				if (life <= 0) {
-					Game.entities = new ArrayList<Entity>();
-					Game.enemies = new ArrayList<Enemy>();
-					Game.spritesheet = new Spritesheet("/spritesheet.png");
-					Game.player = new Player(0, 0, 64, 64, Game.spritesheet.getSprite(0, 0, 64, 64));
-					Game.entities.add(Game.player);
-					Game.world = new World("/map.png");
-					return;
+				
+				if( life <= 0 ) {
+					/*GAME OVER*/
 				}
 
 				/* Camera seguindo no eixo X */
@@ -141,14 +137,13 @@ public class Player extends Entity
 
 			}
 
-
 		public void checkCollisionItem()
 			{
-				for (int i = 0; i < Game.entities.size(); i++) {
-					Entity atual = Game.entities.get(i);
-					if (atual instanceof Coletaveis) {
-						if (Entity.isColliding(this, atual)) {
-							Game.enemies.remove(atual);
+				for (int i = 0; i < Game.coletaveis.size(); i++) {
+					Entity atual = Game.coletaveis.get(i);
+					if( atual instanceof Coletaveis ) {
+						if( Entity.isColliding(this, atual) ) {
+							Game.entities.remove(atual);
 						}
 					}
 				}
@@ -158,38 +153,45 @@ public class Player extends Entity
 		public void render(Graphics g)
 			{
 
-				if (moved) {
+				if( moved ) {
 					/* Animacao andando para direita */
-					if (dir == right_dir) {
-						if (!isDamaged) {
+					if( dir == right_dir ) {
+						if( !isDamaged ) {
 							renderBufferedImage(g, PlayerMoveRight, index);
-						} else {
+						}
+						else {
 							renderBufferedImage(g, PlayerDamage, 2);
 						}
-					} else
+					}
+					else
 					/* Animacao andando para esquerda */
 					{
-						if (!isDamaged) {
+						if( !isDamaged ) {
 							renderBufferedImage(g, PlayerMoveLeft, index);
-						} else {
+						}
+						else {
 							renderBufferedImage(g, PlayerDamage, 3);
 						}
 					}
-				} else {
+				}
+				else {
 					/* Animacao Parado */
 
-					if (dir == right_dir)/* Direita */
+					if( dir == right_dir )/* Direita */
 					{
-						if (!isDamaged) {
+						if( !isDamaged ) {
 							renderBufferedImage(g, PlayerStdRight, std_Index);
-						} else {
+						}
+						else {
 							renderBufferedImage(g, PlayerDamage, 0);
 						}
-					} else/* Esquerda */
+					}
+					else/* Esquerda */
 					{
-						if (!isDamaged) {
+						if( !isDamaged ) {
 							renderBufferedImage(g, PlayerStdLeft, std_Index);
-						} else {
+						}
+						else {
 							renderBufferedImage(g, PlayerDamage, 1);
 						}
 					}
@@ -198,7 +200,7 @@ public class Player extends Entity
 				/*
 				 * Visualizar a mascara de colisao Funcao para debug
 				 */
-				if (showMask) {
+				if( showMask ) {
 					g.setColor(Color.BLUE);
 					g.fillRect(this.getX() + mask_X - Camera.x, this.getY() + mask_Y - Camera.y, mask_W, mask_H);
 				}

@@ -20,7 +20,6 @@ public abstract class Entity
 		// public static BufferedImage TRUCK_EN =
 		// Game.spritesheet.getSprite(256,448, 64,
 		// 64);
-	
 
 		protected double x;
 		protected double y;
@@ -43,6 +42,7 @@ public abstract class Entity
 		public int dir = right_dir;
 
 		private BufferedImage sprite;
+
 
 		public Entity(int x, int y, int width, int height, BufferedImage sprite)
 			{
@@ -126,8 +126,7 @@ public abstract class Entity
 			}
 
 		public void tick()
-			{
-			}
+			{}
 
 		public static boolean isColliding(Entity en1, Entity en2)
 			{
