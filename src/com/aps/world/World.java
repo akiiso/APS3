@@ -56,6 +56,7 @@ public class World
                     TrashCan tc_down = new TrashCan(xx * TILE_SIZE, yy * (TILE_SIZE), TILE_SIZE, TILE_SIZE, Entity.TRASH_full_EN);
                     Coletaveis clt = new Coletaveis(xx * TILE_SIZE, yy * (TILE_SIZE), TILE_SIZE, TILE_SIZE, Entity.SODACAN_EN);
                     Obstacle obs = new Obstacle(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, Entity.Obstacle_EN);
+                    Obstacle obs_var = new Obstacle(xx * TILE_SIZE, yy * TILE_SIZE - 30, TILE_SIZE, TILE_SIZE, Entity.Obstacle_EN);
 
                     switch (pixelAtual)
                     {
@@ -163,8 +164,37 @@ public class World
                             }
                         }
 
-                        /* Obstacle */
+                        /* block */
                         case 0xFF000000:
+                        {
+
+                            if (pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFFD800
+                                    || pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFFD800)
+                            {
+                                Game.entities.add(obs_var);
+                                Game.entities.add(obs);
+                                
+                                tiles[xx + (yy * WIDTH)] = upFloor;
+                                break;
+                            }
+                            else if (pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFF6A00
+                                    || pixels[(xx + 1) + (yy * WIDTH)] == 0xFFFF6A00)
+                            {
+                                 Game.entities.add(obs_var);
+                                Game.entities.add(obs);
+                                tiles[xx + (yy * WIDTH)] = downFloor;
+                                break;
+                            }
+                            else
+                            {
+                                 Game.entities.add(obs_var);
+                                Game.entities.add(obs);
+                                tiles[xx + (yy * WIDTH)] = midFloor;
+                                break;
+                            }
+                        }
+                        /* Obstacle*/
+                        case 0xFF404040:
                         {
 
                             if (pixels[(xx - 1) + (yy * WIDTH)] == 0xFFFFD800
@@ -282,9 +312,9 @@ public class World
         }
         Game.entities = new ArrayList<Entity>();
         Game.enemies = new ArrayList<Enemy>();
-        Game.spritesheet = new Spritesheet("/spritesheet.png");
+        Game.spritesheet = new Spritesheet("/com/aps/res/spritesheet.png");
         Game.entities.add(Game.player);
-        Game.world = new World("/" + level);
+        Game.world = new World(level);
         return;
     }
 

@@ -1,6 +1,5 @@
 package com.aps.entities;
 
-import static com.aps.entities.Entity.isColliding;
 import com.aps.main.Game;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -16,7 +15,8 @@ public class Obstacle extends Entity
     public Obstacle(int x, int y, int width, int height, BufferedImage sprite)
     {
         super(x, y, width, height, sprite);
-        setMasks(10, -10, 46, 80);
+        setMasks(21, 15, 24, 42);
+        //setMasks(10, -10, 46, 80);
 
         Obstacles = new BufferedImage[1];
         Obstacles[0] = Game.spritesheet.getSprite(512, 256, 64, 64);
@@ -33,15 +33,34 @@ public class Obstacle extends Entity
     {
         if (isColliding(this, Game.player))
         {
-            if (Game.player.dir == Game.player.right_dir)
+            if (Game.player.getX() < this.getX())
             {
+                Game.player.canMove = false;
                 Game.player.x -= Game.player.Player_speed;
+                Game.player.canMove = true;
             }
-            else if (Game.player.dir == Game.player.left_dir)
+            else if (Game.player.getX() > this.getX())
             {
+                Game.player.canMove = false;
                 Game.player.x += Game.player.Player_speed;
+                Game.player.canMove = true;
+
             }
+            if (Game.player.getY() < this.getY())
+            {
+                Game.player.canMove = false;
+                Game.player.y -= Game.player.Player_speed;
+                Game.player.canMove = true;
+            }
+            else if (Game.player.getY() > this.getY())
+            {
+                Game.player.canMove = false;
+                Game.player.y += Game.player.Player_speed;
+                Game.player.canMove = true;
+            }
+
         }
+
     }
 
     @Override

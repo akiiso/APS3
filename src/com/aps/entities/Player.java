@@ -18,7 +18,7 @@ public class Player extends Entity
 
     private boolean moved = false;
     public boolean isDamaged = false;
-
+    public boolean canMove = true;
 
     /*Valores dos atributos do jogador*/
     public double Player_speed = 3.2;/*Velocidade de corrida*/
@@ -70,24 +70,24 @@ public class Player extends Entity
     {
 
         moved = false;
-        if (right && World.isFree((int) (x + Player_speed), this.getY()))
+        if (right && canMove && World.isFree((int) (x + Player_speed), this.getY()))
         {
             moved = true;
             dir = right_dir;
             x += Player_speed;
         }
-        else if (left && World.isFree((int) (x - Player_speed), this.getY()))
+        else if (left && canMove && World.isFree((int) (x - Player_speed), this.getY()))
         {
             moved = true;
             dir = left_dir;
             x -= Player_speed;
         }
-        if (up && World.isFree(this.getX(), (int) (y - Player_speed)))
+        if (up && canMove && World.isFree(this.getX(), (int) (y - Player_speed)))
         {
             moved = true;
             y -= Player_speed;
         }
-        else if (down && World.isFree(this.getX(), (int) (y + Player_speed)))
+        else if (down && canMove && World.isFree(this.getX(), (int) (y + Player_speed)))
         {
             moved = true;
             y += Player_speed;

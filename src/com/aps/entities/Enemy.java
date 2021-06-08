@@ -10,12 +10,13 @@ import com.aps.main.Sound;
 import com.aps.world.Camera;
 import com.aps.world.World;
 
+
 public class Enemy extends Entity
 {
 
     private final BufferedImage[] EnemyMoveRight, EnemyMoveLeft;
 
-    private int speed = 1;
+    private final int speed = 2;
 
     public Enemy(int x, int y, int width, int height, BufferedImage sprite)
     {
@@ -39,7 +40,7 @@ public class Enemy extends Entity
     {
         if (this.isCollidingWithPlayer() == false)
         {
-            if ((Game.player.getX() + 128 > this.getX()) && (Game.player.getX() - 128 < this.getX()))
+            if ((Game.player.getX()+Game.player.getMask_X() + 240 > this.getX()) && (Game.player.getX()+Game.player.getMask_X() - 240 < this.getX()))
             {
                 if (Game.rand.nextInt(100) < 80)
                 {
@@ -81,7 +82,7 @@ public class Enemy extends Entity
         }
         else
         {
-            if (Game.rand.nextInt(100) < 10)
+            if (Game.rand.nextInt(100) < 5)
             {
                 Game.player.life -= 2;
                 Game.player.isDamaged = true;
@@ -91,6 +92,7 @@ public class Enemy extends Entity
         }
 
     }
+    
 
     /*
 		 * Verificar se Enemy esta colidindo com Player

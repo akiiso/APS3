@@ -28,17 +28,17 @@ public class Game extends Canvas implements Runnable, KeyListener
     public static JFrame frame;
     private Thread thread;
     private boolean isRunning = true;
-    
+
     public static Spritesheet spritesheet;
-    
-    public static int WIDTH = 200;
-    public static int HEIGHT = 320;
+
+    public static int WIDTH = 340;
+    public static int HEIGHT = 340;
     public static final int SCALE = 2;
     private int frames = 0;
 
     public Menu menu;
     public static String gameState = "MENU";
-    private int CUR_LEVEL = 1, MAX_LEVEL = 3;
+    private int CUR_LEVEL = 1, MAX_LEVEL = 5;
     public static int Score = 0;
     private boolean restartGame = false;
     private BufferedImage image;
@@ -66,10 +66,10 @@ public class Game extends Canvas implements Runnable, KeyListener
         enemies = new ArrayList<Enemy>();
         coletaveis = new ArrayList<Entity>();
 
-        spritesheet = new Spritesheet("/spritesheet.png");
+        spritesheet = new Spritesheet("/com/aps/res/spritesheet.png");
         player = new Player(0, 0, 64, 64, spritesheet.getSprite(0, 0, 64, 64));
         entities.add(player);
-        world = new World("/level1.png");
+        world = new World("/com/aps/res/level1.png");
 
         menu = new Menu();
 
@@ -140,7 +140,7 @@ public class Game extends Canvas implements Runnable, KeyListener
                         {
                             CUR_LEVEL = 1;
                         }
-                        String newWorld = "level" + CUR_LEVEL + ".png";
+                        String newWorld = "/com/aps/res/level" + CUR_LEVEL + ".png";
                         World.restartGame(CUR_LEVEL, newWorld);
                     }
                 }
@@ -160,7 +160,7 @@ public class Game extends Canvas implements Runnable, KeyListener
                     gameState = "NORMAL";
                     Score = 0;
                     CUR_LEVEL = 1;
-                    String newWorld = "level" + CUR_LEVEL + ".png";
+                    String newWorld = "/com/aps/res/level" + CUR_LEVEL + ".png";
 
                     World.restartGame(CUR_LEVEL, newWorld);
                 }
@@ -248,18 +248,12 @@ public class Game extends Canvas implements Runnable, KeyListener
             }
             if (System.currentTimeMillis() - timer >= 1000)
             {
-                System.out.println("FPS: " + frames);
+//                System.out.println("FPS: " + frames);
                 frames = 0;
                 timer += 1000;
             }
         }
         stop();
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e)
-    {
-
     }
 
     @Override
@@ -300,7 +294,6 @@ public class Game extends Canvas implements Runnable, KeyListener
             if (gameState == "GAME_OVER")
             {
                 this.restartGame = true;
-                System.out.println("Working ");
             }
             else if (gameState == "MENU")
             {
@@ -341,5 +334,10 @@ public class Game extends Canvas implements Runnable, KeyListener
             player.down = false;
         }
 
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e)
+    {
     }
 }

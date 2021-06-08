@@ -57,9 +57,9 @@ public class Sound
 
     }
 
-    public static Clips music = load("/music.wav", 1);
-    public static Clips hit = load("/hurt.wav", 1);
-    public static Clips collect = load("/Collect.wav", 1);
+    public static Clips music = load("/com/aps/res/music.wav", 1);
+    public static Clips hit = load("/com/aps/res/hurt.wav", 1);
+    public static Clips collect = load("/com/aps/res/Collect.wav", 1);
 
     private static Clips load(String name, int count)
     {
